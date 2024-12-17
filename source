@@ -1,0 +1,148 @@
+
+::?closesms::Hi XXX, Leaptel here. We have closed off your fault, if you continue experiencing issues please let us know on 1300 205 327.
+
+:O:?return::Postal Address:{Enter}PO Box 120 {Enter} Camberwell VIC 3124
+
+::?nudge::
+SendInput, Hello XXX,{enter 2}It's been a while since we heard word from you and unfortunately we will have to close this fault off within the next 48 hours if we do not receive a response, if you're still experiencing difficulties with your service or you have any remaining queries please let us know.{enter 2}Regards,{enter}XXX.
+
+Return
+
+:0:?fault::Dear XXX,{Enter 2}Thank you for lodging a fault with us recently.{Enter}{Enter}We have tried contacting you today to follow up in regards to this fault.{Enter 2}Just checking in to see if this fault has been resolved or if you're still experiencing issues.{Enter}{Enter}If you are still experiencing difficulties with your service, please contact us back on 1300 205 327 between the hours of:{Enter}{Enter}Monday to Friday - 9am to 9pm, Weekends & Public Holidays - 9am to 7pm.
+
+:0:?faultsms::Leaptel here. Please get in contact with us regarding your open fault on 1300 205 327, so we can assist further.
+
+:0:?order::Dear XXX,{Enter}{Enter}Thanks for ordering your nbnTM broadband with Leaptel.{Enter}{Enter}Please be advised our Customer Service Team have been trying to contact you in relation to your order that we have in the system and have not been able to reach you.{Enter}{Enter}Unfortunately, we cannot proceed any further with your order until we have made contact with you.{Enter}{Enter}Could you please call our team on 1300 205 327 so we can proceed?
+
+:0:?ordersms::Please call Leaptel Customer Service Team on 1300 250 327. We unfortunately cannot proceed with your order until we make contact with yourself. Thank you
+
+; Key Commands --------------------------------------------------------------------------------------
+
+!n::
+
+Run https://nbnportals.nbnco.net.au/online_customers/page/home?fromHeaderSearch=true&search=%Clipboard%
+
+return
+
+!p::
+
+Run  https://auspost.com.au/mypost/track/#/details/%clipboard%
+
+return
+
+!s::
+
+if (RegExMatch(Clipboard, "LOC\d+", Match))
+{
+	Runwait https://nbnportals.nbnco.net.au/online_customers/page/manageaddress/site_qualification/setup
+	sleep 1000
+	SendInput {tab}^v{enter}
+	sleep 500
+	SendInput {pgdn}
+	Return
+}
+else 
+{
+	Run https://nbnportals.nbnco.net.au/online_customers/page/manageaddress/site_qualification/setup
+	
+Return
+}
+
+
+!o::
+Run https://rspportal.telco.opticomm.net.au/ 
+return
+
+::?bpay::
+{
+Gui, Add, Text, section xm w130, Customer Name:
+Gui, Add, Edit, vCustNamea w200 ys
+Gui, Add, Text, section xm w130, Customer Number:
+Gui, Add, Edit, vCustrefa w200 ys
+Gui, Add, Button, w150 xm section, GO!
+Gui, Color, 1bb158
+Gui, Show,, Leaptel Bpay
+return
+
+ButtonGO!:
+{
+	if WinExist("ahk_exe notepad++.exe")
+		WinActivate
+	Gui, Submit
+	}
+
+SendInput Dear %CustNamea%, {Enter}{Enter}Please find below our BPay details.{Enter}{Enter}Biller Code: 250332{Enter}Reference Number: %Custrefa% {Enter}{Enter}Please keep in mind all BPay payments take 3 business days to clear. {Enter}In the event payment is not cleared before your normal billing date your account will be debited as per normal. {Enter}Please endeavour to make BPay payments with three clear business days lead time to avoid being debited twice. {Enter}​​​​​​​If you must make a payment inside this three day window please contact us via phone on 1300 205 327 to have a payment plan put in place to avoid being debited twice. {Enter}{Enter}If you have any other enquiries please don’t hesitate to contact us on 1300 205 327 or by replying to this email.{Enter}
+
+Gui, Destroy
+Exit
+}
+
+#singleinstance force
+
+::?ffs::
+
+Gui, New
+Gui, 1:default
+Gui, Font, s10
+
+; Add the text above the dropdown menu
+Gui, Add, Text, x10 y10 w200 h20, Select the wholesaler for FFS
+
+; Add the dropdown list below the text
+Gui, Add, DropDownList, w195 vWholesale, NBN|OptiComm|Lynham|ASN|Redtrain
+
+; Add the "Go" button
+Gui, Add, Button, x100 y+10 gA1 Default, Go
+
+Gui, Show, w220 h120, Select
+return
+
+; Handle the 'Go' button press
+A1:
+Gui, Submit, NoHide  ; Captures the selected value from the dropdown
+
+Gui, Destroy  ; Close the GUI before proceeding with sending text
+
+If Wholesale = OptiComm
+{
+    SendInput,  As your fault is likely to require a visit to your premises by a technician, I need to advise you that you may be liable for a fee.{Enter 2}A fee of $300 may apply if no fault is found by the OptiComm technician, or if the fault is found to be due to the customer{Asc 39}s equipment or internal wiring.{Enter 2}If the service interruption has been caused by (but not limited to) customer cabling, equipment tampering (including damage to the Lead In Assembly cable) or loss of power to the NTU/RPS or other OptiComm equipment there will be a minimum call out fee of $300.{Enter 2}You are liable for any physical damage to the OptiComm infrastructure (such as the Lead in Assembly cable, & NTU/RPS) inside your property boundary, including any damage to the wiring that occurs inside the premise structure. This includes damage caused by third parties and animals (such as rodents).{Enter 2}If the fault has been caused by damage to the NTU, Lead In Assembly cable or other OptiComm equipment - be that through tampering by the property owner, tenant, builder or other third party (including animals such as rodents) - the cost of replacement parts will be recovered as well.{Enter 2}You are advised to raise any possible concerns about the possibility of a fee prior to a technician visit being arranged, as once the technician visit has occurred it is very difficult to dispute a charged fee if it meets the criteria of the above agreement. {Enter 2}If no-one is at the property when Opticomm attends, there will be a $97.00 missed appointment fee.{Enter 2}Please note that only OptiComm licensed technicians are permitted under the telecommunications act to modify or repair the OptiComm network.
+    Return
+}
+Else If Wholesale = NBN
+{
+    SendInput,  As your fault is likely to require a visit to your premises by a technician, I need to advise you that you may be liable for a fee.{Enter}A fee of $120 may apply if no fault is found by the NBN technician, or if the fault is found to be due to the customer{asc 39}s equipment or internal wiring. NBN may charge additional fees for parts if replacement of NBN equipment is required.
+    Return
+}
+Else If Wholesale = Lynham
+{
+    SendInput, As your fault is likely to require a visit to your premises by a technician, I need to advise you that you may be liable for a fee.{Enter}A fee of $150 may apply if no fault is found by the Lynham Networks technician, or if the fault is found to be due to the customer{asc 39}s equipment or internal wiring. Lynham Networks may charge additional fees for parts if replacement of Lynham Networks equipment is required.
+    Return
+}
+Else If Wholesale = ASN
+{
+    SendInput, As your fault is likely to require a visit to your premises by a technician, I need to advise you that you may be liable for a fee.{Enter}A fee of $150 may apply if no fault is found by the ASN Telecom technician, or if the fault is found to be due to the customer{asc 39}s equipment or internal wiring. ASN may charge additional fees for parts if replacement of ASN equipment is required.
+    Return
+}
+Else If Wholesale = Redtrain
+{
+    SendInput, As your fault is likely to require a visit to your premises by a technician, I need to advise you that you may be liable for a fee.{Enter}A fee of $150 may apply if no fault is found by the Redtrain technician, or if the fault is found to be due to the customer{asc 39}s equipment or internal wiring. Redtrain may charge additional fees for parts if replacement of Redtrain equipment is required.
+    Return
+}
+Else
+{
+    MsgBox, Error: No valid option selected.
+    Return
+}
+
+GuiClose:
+ExitApp
+
+
+
+::opticomm::OptiComm
+::nbn::NBN
+::ntd::NTD
+::wifi::WIFI
+::voip::VoIP
+
+
