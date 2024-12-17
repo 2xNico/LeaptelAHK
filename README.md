@@ -1,0 +1,2 @@
+# LeaptelAHK
+Autohotkey for Leaptel
