@@ -11,12 +11,11 @@ Pressing Left+Right Alt reloads the script,
 Pressing Left+Right Ctrl suspends the script
 
 Ctrl+Del - Searches what’s in your clipboard, such as NBN LOC IDs, PRIs, INC’s etc. 
-Also does Auspost codes, links, google searches and tries to do MAC addresses (Breaks if formatted in a way other than xx:xx:xx:xx:xx:xx
+Also does Auspost codes, links, google searches and tries to do MAC addresses (Make sure there are no spaces)
 
 ?ffs - Typing this will open a dropdown menu, allowing you to select a wholesaler, and automatically type out the relevant FFS script. 
 
-?ph - Typing this autofills  1300 205 327 (kinda broken..?)
-
+?ph - Typing this autofills  1300 205 327
 
 ?bookedsms - Types out Your Leaptel NBN install is booked for [Time]. Please make sure someone is available, any issues call %phone%
 
